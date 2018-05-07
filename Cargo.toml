@@ -1,0 +1,6 @@
+[package]
+name = "raffa_parser"
+version = "0.1.0"
+authors = ["raffa <raffalevy@me.com>"]
+
+[dependencies]
