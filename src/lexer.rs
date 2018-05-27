@@ -45,6 +45,9 @@ impl Lexer {
                 '+' => Some(self.make_token(TokenValue::Plus)),
                 '-' => Some(self.make_token(TokenValue::Minus)),
                 '*' => Some(self.make_token(TokenValue::Times)),
+                '^' => Some(self.make_token(TokenValue::Caret)),
+                '{' => Some(self.make_token(TokenValue::LeftBracket)),
+                '}' => Some(self.make_token(TokenValue::RightBracket)),
                 '!' => {
                     let token_value = if self.match_next('=') {
                         TokenValue::BangEqual
@@ -190,11 +193,15 @@ impl Lexer {
     fn handle_word(&mut self) -> Option<Token> {
         loop {
             match self.peek() {
-                Some(c) if is_id_char(c) => {self.advance();},
-                _ => {break;}
+                Some(c) if is_id_char(c) => {
+                    self.advance();
+                }
+                _ => {
+                    break;
+                }
             }
         }
-        let text : String = self.chars[self.start..self.current].iter().collect();
+        let text: String = self.chars[self.start..self.current].iter().collect();
         if let Some(keyword_value) = KeywordValue::from(&text) {
             Some(self.make_token(TokenValue::Keyword(keyword_value)))
         } else {
@@ -243,6 +250,9 @@ pub enum TokenValue {
     Minus,
     Slash,
     Times,
+    Caret,
+    LeftBracket,
+    RightBracket,
 
     Identifier(String),
     Keyword(KeywordValue),
@@ -258,14 +268,14 @@ pub enum TokenValue {
 #[derive(Debug, Clone)]
 pub enum KeywordValue {
     IF,
-    FUN,
+    DEF,
 }
 
 impl KeywordValue {
     fn from(val: &str) -> Option<Self> {
         match val {
             "if" => Some(KeywordValue::IF),
-            "fun" => Some(KeywordValue::FUN),
+            "def" => Some(KeywordValue::DEF),
             _ => None,
         }
     }

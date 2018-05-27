@@ -5,6 +5,12 @@ pub enum ReplTree {
 }
 
 #[derive(Debug, Clone)]
+pub enum Block {
+    Exprs(Vec<Expr>),
+    Empty
+}
+
+#[derive(Debug, Clone)]
 pub struct Expr {
     pub line: usize,
     pub expr_type: ExprType,
@@ -15,7 +21,9 @@ pub enum ExprType {
     Binary(BinOp, Box<Expr>, Box<Expr>),
     NumLit(f64),
     Var(String),
-    Assign(String, Box<Expr>)
+    Assign(String, Box<Expr>),
+    FuncCall(String, Vec<Expr>),
+    FuncDef(String, Vec<String>, Block)
 }
 
 #[derive(Debug, Copy, Clone)]
@@ -24,6 +32,7 @@ pub enum BinOp {
     Minus,
     Times,
     Slash,
+    Exp
 }
 
 /*

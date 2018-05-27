@@ -1,3 +1,7 @@
-a = 32
-b = 4
-a * b + a/2
+//def vueling() {
+//    3
+//}
+//
+//print(vueling())
+
+print(3+2)
